@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f4efe6" />
+  <title>Movie-Rex — Find your next film</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Movie-Rex home"><span class="brand-mark">M</span><span>movie<span class="brand-accent">rex</span></span></a>
+    <div class="top-note"><span class="status-dot"></span> YOUR PERSONAL FILM FINDER</div>
+  </header>
+
+  <main id="top" class="shell">
+    <section class="hero">
+      <div class="eyebrow"><span></span> SEARCH · DISCOVER · RECOMMEND</div>
+      <h1>Find a film that<br><em>feels right.</em></h1>
+      <p class="hero-copy">Tell us what you love, or describe the story you're in the mood for. We'll find your next favourite.</p>
+      <div class="hero-rule"><span></span><span class="rule-star">✳</span><span></span></div>
+    </section>
+
+    <section class="workspace" aria-label="Movie recommendation tools">
+      <div class="mode-tabs" role="tablist" aria-label="Recommendation mode">
+        <button class="mode-tab active" id="tab-similar" role="tab" aria-selected="true" aria-controls="panel-similar" data-mode="similar"><span class="tab-number">01</span><span><strong>Find similar films</strong><small>Start with a movie you love</small></span></button>
+        <button class="mode-tab" id="tab-custom" role="tab" aria-selected="false" aria-controls="panel-custom" data-mode="custom"><span class="tab-number">02</span><span><strong>Describe your mood</strong><small>Build your ideal movie</small></span></button>
+      </div>
+
+      <section class="mode-panel active" id="panel-similar" role="tabpanel" aria-labelledby="tab-similar">
+        <div class="panel-heading"><div><p class="section-kicker">MODE ONE</p><h2>One film leads to another.</h2></div><span class="panel-icon">↗</span></div>
+        <form id="similar-form" class="form-stack">
+          <label for="movie-title">Movie title</label>
+          <div class="autocomplete-wrap">
+            <input id="movie-title" name="movie_title" type="text" placeholder="e.g. The Dark Knight" autocomplete="off" required />
+            <div id="title-suggestions" class="suggestions" role="listbox"></div>
+          </div>
+          <div class="field-row compact-row"><div><label for="similar-count">Recommendations</label><select id="similar-count"><option>5</option><option selected>10</option><option>15</option><option>20</option></select></div><button class="primary-button" type="submit"><span>Find similar films</span><b>↗</b></button></div>
+        </form>
+      </section>
+
+      <section class="mode-panel" id="panel-custom" role="tabpanel" aria-labelledby="tab-custom" hidden>
+        <div class="panel-heading"><div><p class="section-kicker">MODE TWO</p><h2>Describe the story.</h2></div><span class="panel-icon">✳</span></div>
+        <form id="custom-form" class="form-stack">
+          <label for="description">What kind of movie are you looking for? <span class="required">Required</span></label>
+          <textarea id="description" rows="3" placeholder="A clever detective investigates a murder that gets more complicated with every clue…" required minlength="3"></textarea>
+
+          <div class="field-block">
+            <label for="genre-input">Genres <span class="muted-label">Optional · choose multiple</span></label>
+            <div class="chip-input-wrap"><div id="genre-chips" class="chips"></div><input id="genre-input" type="text" placeholder="Search genres…" autocomplete="off" /></div>
+            <div id="genre-suggestions" class="suggestions"></div>
+          </div>
+
+          <div class="field-block">
+            <label for="cast-input">Cast <span class="muted-label">Optional · choose multiple</span></label>
+            <div class="chip-input-wrap"><div id="cast-chips" class="chips"></div><input id="cast-input" type="text" placeholder="Search actors…" autocomplete="off" /></div>
+            <div id="cast-suggestions" class="suggestions"></div>
+          </div>
+
+          <div class="field-block">
+            <label for="director-input">Director <span class="muted-label">Optional · choose one</span></label>
+            <div class="autocomplete-wrap"><input id="director-input" type="text" placeholder="Search directors…" autocomplete="off" /><div id="director-suggestions" class="suggestions"></div></div>
+          </div>
+
+          <div class="filters-heading"><span>REFINE YOUR RESULTS</span><span class="filters-line"></span></div>
+          <div class="filter-grid">
+            <div class="filter-card"><label>Runtime (minutes)</label><div class="field-row"><input id="min-runtime" type="number" min="1" max="1000" placeholder="Min" /><span class="range-dash">—</span><input id="max-runtime" type="number" min="1" max="1000" placeholder="Max" /></div></div>
+            <div class="filter-card"><label>IMDb rating</label><div class="field-row"><input id="min-rating" type="number" min="0" max="10" step="0.1" placeholder="Min" /><span class="range-dash">—</span><input id="max-rating" type="number" min="0" max="10" step="0.1" placeholder="Max" /></div></div>
+          </div>
+          <div class="field-row submit-row"><div><label for="custom-count">Recommendations</label><select id="custom-count"><option>5</option><option selected>10</option><option>15</option><option>20</option></select></div><button class="primary-button" type="submit"><span>Find my films</span><b>↗</b></button></div>
+        </form>
+      </section>
+    </section>
+
+    <section id="results-section" class="results-section" aria-live="polite" hidden>
+      <div class="results-header"><div><p class="section-kicker">YOUR CURATED LIST</p><h2 id="results-title">Films picked for you.</h2><p id="results-subtitle" class="results-subtitle"></p></div><span id="result-count" class="result-count">0 FILMS</span></div>
+      <div id="results-grid" class="results-grid"></div>
+    </section>
+
+    <div id="toast" class="toast" role="status" hidden></div>
+    <footer><div class="footer-brand">MOVIE<span>REX</span></div><p>Made for the love of stories.</p><span class="footer-mark">✳</span></footer>
+  </main>
+  <script src="/static/script.js" defer></script>
+</body>
+</html>
